@@ -4,34 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Recipe {
-    private class Instructions {
-        private ArrayList<String> steps;
-
-        public Instructions(String steps) {
-            if(steps == null || steps.isEmpty()) throw new IllegalArgumentException("Steps cannot be null or empty");
-
-            ArrayList<String> temp = new ArrayList<String>(Arrays.asList(steps.split("\n")));
-            temp.removeIf(s -> s == null || s.isEmpty());
-            
-        }
-
-        public ArrayList<String> getSteps() {
-            return steps;
-        }
-
-        public String toString() {
-            StringBuilder sb = new StringBuilder();
-            for(int i = 0; i < steps.size(); i++) {
-                sb
-                    .append(i + 1)
-                    .append(". ")
-                    .append(steps.get(i))
-                    .append("\n");
-            }
-            return sb.toString();
-        }
-    }
-
     private String name;
     private ArrayList<Aliment> ingredients;
     private Instructions instructions;
@@ -82,5 +54,33 @@ public class Recipe {
         }
         sb.append(instructions.toString());
         return sb.toString();
+    }
+
+    private class Instructions {
+        private ArrayList<String> steps;
+
+        public Instructions(String steps) {
+            if(steps == null || steps.isEmpty()) throw new IllegalArgumentException("Steps cannot be null or empty");
+
+            ArrayList<String> temp = new ArrayList<String>(Arrays.asList(steps.split("\n")));
+            temp.removeIf(s -> s == null || s.isEmpty());
+            
+        }
+
+        public ArrayList<String> getSteps() {
+            return steps;
+        }
+
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            for(int i = 0; i < steps.size(); i++) {
+                sb
+                    .append(i + 1)
+                    .append(". ")
+                    .append(steps.get(i))
+                    .append("\n");
+            }
+            return sb.toString();
+        }
     }
 }
