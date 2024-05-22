@@ -19,16 +19,8 @@ public class Activity {
         this.name = name;
         this.calories = calories;
         this.duration = duration;
-        this.start = 0;
-    }
-
-    public void ammend(int calories, int duration) {
-        if(duration <= 0) throw new IllegalArgumentException("Duration cannot be negative or zero");
-        if(duration > 48) throw new IllegalArgumentException("Duration cannot be greater than 24 hours");
-        if(start + duration > 48) throw new IllegalArgumentException("Activity cannot end after 24 hours");
-
-        this.calories = calories;
-        this.duration = duration;
+        this.start = start;
+        this.day = day;
     }
 
     public String getName() {
@@ -60,7 +52,11 @@ public class Activity {
             .append(calories)
             .append(" calories for ")
             .append(duration)
-            .append(" half hours");
+            .append(" half hours")
+            .append(" starting at ")
+            .append(start)
+            .append(" on ")
+            .append(day.toString());
         return sb.toString();
     }
 }

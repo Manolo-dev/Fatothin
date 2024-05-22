@@ -3,30 +3,89 @@ package model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 
 import utils.Day;
 
 public class Plan {
     private String name;
     private ArrayList<Activity> activities;
+    private HashMap<Day, boolean[]> freeSlots;
 
     public Plan(String name, ArrayList<Activity> activities) {
         if(name == null || name.isEmpty()) throw new IllegalArgumentException("Name cannot be null or empty");
-        if(activities == null) throw new IllegalArgumentException("Activities cannot be null");
-        if(activities.isEmpty()) throw new IllegalArgumentException("Activities cannot be empty");
+        if(activities == null) activities = new ArrayList<Activity>();
 
         this.name = name;
         this.activities = activities;
+
+        freeSlots = new HashMap<Day, boolean[]>();
+        for(Day day : Day.values()) {
+            freeSlots.put(day, new boolean[48]);
+        }
+    }
+
+    private boolean isFree(Activity activity) {
+        for(int i = activity.getStart(); i < activity.getStart() + activity.getDuration(); i++) {
+            if(freeSlots.get(activity.getDay())[i]) return false;
+        }
+        return true;
     }
 
     public void add(Activity activity) {
         if(activity == null) throw new IllegalArgumentException("Activity cannot be null");
+        if(activities.contains(activity)) throw new IllegalArgumentException("Activity already exists");
+
+        if(!isFree(activity)) throw new IllegalArgumentException("Activity overlaps with another activity");
 
         activities.add(activity);
+        
+        for(int i = activity.getStart(); i < activity.getStart() + activity.getDuration(); i++) {
+            freeSlots.get(activity.getDay())[i] = true;
+        }
     }
 
     public void remove(Activity activity) {
         if(activity == null) throw new IllegalArgumentException("Activity cannot be null");
+        if(!activities.contains(activity)) throw new IllegalArgumentException("Activity does not exist");
+
+        activities.remove(activity);
+
+        for(int i = activity.getStart(); i < activity.getStart() + activity.getDuration(); i++) {
+            freeSlots.get(activity.getDay())[i] = false;
+        }
+    }
+
+    public void remove(Day day, int start) {
+        Activity activity = null;
+        for(Activity a : activities) {
+            if(a.getDay() == day && a.getStart() == start) {
+                activity = a;
+                break;
+            }
+        }
+
+        if(activity == null) throw new IllegalArgumentException("Activity does not exist");
+
+        activities.remove(activity);
+
+        for(int i = activity.getStart(); i < activity.getStart() + activity.getDuration(); i++) {
+            freeSlots.get(activity.getDay())[i] = false;
+        }
+    }
+
+    public void remove(String name) {
+        if(name == null || name.isEmpty()) throw new IllegalArgumentException("Name cannot be null or empty");
+
+        Activity activity = null;
+        for(Activity a : activities) {
+            if(a.getName().equals(name)) {
+                activity = a;
+                break;
+            }
+        }
+
+        if(activity == null) throw new IllegalArgumentException("Activity does not exist");
 
         activities.remove(activity);
     }
@@ -35,8 +94,27 @@ public class Plan {
         return name;
     }
 
+    public Activity getActivitie(Day day, int start) {
+        for(Activity activity : activities) {
+            if(activity.getDay() == day && activity.getStart() == start) {
+                return activity;
+            }
+        }
+        return null;
+    }
+
     public ArrayList<Activity> getActivities() {
         return activities;
+    }
+
+    public ArrayList<Activity> getActivities(Day day) {
+        ArrayList<Activity> dayActivities = new ArrayList<>();
+        for(Activity activity : activities) {
+            if(activity.getDay() == day) {
+                dayActivities.add(activity);
+            }
+        }
+        return dayActivities;
     }
 
     public int getCalories() {
@@ -45,6 +123,20 @@ public class Plan {
             calories += activity.getCalories();
         }
         return calories;
+    }
+
+    public int getCalories(Day day) {
+        int calories = 0;
+        for(Activity activity : activities) {
+            if(activity.getDay() == day) {
+                calories += activity.getCalories();
+            }
+        }
+        return calories;
+    }
+
+    public boolean[] getFreeSlots(Day day) {
+        return freeSlots.get(day);
     }
 
     @Override
@@ -70,7 +162,10 @@ public class Plan {
             });
 
             for(Activity activity : dayActivities) {
-                sb.append(activity.toString()).append("\n");
+                sb
+                    .append("\t")
+                    .append(activity.toString())
+                    .append("\n");
             }
         }
 
