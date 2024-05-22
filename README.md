@@ -8,20 +8,20 @@ Il sera possible de l’utiliser en ligne dans un second temps (ILU3 ou ILU4).
 
 ### Diète
 
-| Action        | Description                                                                                                                                               |
-|---------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| add(aliment)  | Ajouter un aliment à la base de données. Il est possible de spécifier diverses informations sur l’aliment (calories, protéines, glucides, lipides, etc.). |
-| add(recipe)   | Ajouter une recette à la base de données. Une recette est une liste d’aliments avec des quantités ainsi que des instructions de préparation.              |
-| add(meal)     | Ajouter un repas à la base de données. Un repas est une recette avec une un jour de la semaine et soit “matin”, “midi” ou “soir”.                         |
-| add(diet)     | Ajouter un diète à la base de données. Un diète est une liste de repas sans collision de jour et de moment de la journée.                                 |
-| remove(aliment) | Supprimer un aliment de la base de données.                                                                                                             |
-| remove(recipe)  | Supprimer une recette de la base de données.                                                                                                            |
-| remove(meal)    | Supprimer un repas de la base de données.                                                                                                               |
-| remove(diet)    | Supprimer un diète de la base de données.                                                                                                               |
-| update(aliment) | Mettre à jour un aliment de la base de données.                                                                                                         |
-| update(recipe)  | Mettre à jour une recette de la base de données.                                                                                                        |
-| update(meal)    | Mettre à jour un repas de la base de données.                                                                                                           |
-| update(diet)    | Mettre à jour un diète de la base de données.                                                                                                           |
+| Action          | Description                                                                                                                                               |
+|-----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| add(aliment)    | Ajouter un aliment à la base de données. Il est possible de spécifier diverses informations sur l’aliment (calories, protéines, glucides, lipides, etc.). |
+| add(recipe)     | Ajouter une recette à la base de données. Une recette est une liste d’aliments avec des quantités ainsi que des instructions de préparation.              |
+| add(meal)       | Ajouter un repas à la base de données. Un repas est une recette avec une un jour de la semaine et soit “matin”, “midi” ou “soir”.                         |
+| add(diet)       | Ajouter un diète à la base de données. Un diète est une liste de repas sans collision de jour et de moment de la journée.                                 |
+| remove(aliment) | Supprimer un aliment de la base de données.                                                                                                               |
+| remove(recipe)  | Supprimer une recette de la base de données.                                                                                                              |
+| remove(meal)    | Supprimer un repas de la base de données.                                                                                                                 |
+| remove(diet)    | Supprimer un diète de la base de données.                                                                                                                 |
+| update(aliment) | Mettre à jour un aliment de la base de données.                                                                                                           |
+| update(recipe)  | Mettre à jour une recette de la base de données.                                                                                                          |
+| update(meal)    | Mettre à jour un repas de la base de données.                                                                                                             |
+| update(diet)    | Mettre à jour un diète de la base de données.                                                                                                             |
 
 ### Sport
 
@@ -105,15 +105,21 @@ Nous utiliserons l’interface graphique JavaSwing ou GTK (selon la possibilité
 La lecture des bases de données se fera à l’aide de la librairie OpenCSV.  
 Les classes du projet sont les suivantes :
 
+- `Activity` : représente une activité.
+- `Plan` : représente un plan.
+- `Database<T>` : gère la base de données.
+
 - `Aliment` : représente un aliment.
 - `Recipe` : représente une recette.
-- `Meal` : représente un repas.
-- `Diet` : représente une diète.
+- `Recipe.Instructions` : représente les instructions de préparation d'une recette.
+- `Meal(Activity)` : représente un repas.
+- `Diet(Plan)` : représente une diète.
+
 - `Exercise` : représente un exercice.
+- `Exercise.Display` : représente les images et vidéos d'un exercice.
 - `Workout` : représente un entraînement.
-- `Session` : représente une séance.
-- `Program` : représente un programme.
-- `Database` : gère la base de données.
+- `Session(Activity)` : représente une séance.
+- `Program(Plan)` : représente un programme.
 
 ### Tests
 

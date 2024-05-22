@@ -3,8 +3,6 @@ package model;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import model.Aliment;
-
 public class Recipe {
     private class Instructions {
         private ArrayList<String> steps;
@@ -22,7 +20,11 @@ public class Recipe {
         }
 
         public String toString() {
-            return String.join("\n", steps);
+            StringBuilder sb = new StringBuilder();
+            for(int i = 0; i < steps.size(); i++) {
+                sb.append(i + 1).append(". ").append(steps.get(i)).append("\n");
+            }
+            return sb.toString();
         }
     }
 
@@ -50,5 +52,27 @@ public class Recipe {
         if(ingredient == null) throw new IllegalArgumentException("Ingredient cannot be null");
 
         ingredients.remove(ingredient);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public ArrayList<Aliment> getIngredients() {
+        return ingredients;
+    }
+
+    public ArrayList<String> getInstructions() {
+        return instructions.getSteps();
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(name).append("\n");
+        for(Aliment ingredient : ingredients) {
+            sb.append(ingredient.toString()).append("\n");
+        }
+        sb.append(instructions.toString());
+        return sb.toString();
     }
 }
