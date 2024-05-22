@@ -22,7 +22,11 @@ public class Recipe {
         public String toString() {
             StringBuilder sb = new StringBuilder();
             for(int i = 0; i < steps.size(); i++) {
-                sb.append(i + 1).append(". ").append(steps.get(i)).append("\n");
+                sb
+                    .append(i + 1)
+                    .append(". ")
+                    .append(steps.get(i))
+                    .append("\n");
             }
             return sb.toString();
         }
@@ -68,9 +72,13 @@ public class Recipe {
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(name).append("\n");
+        sb
+            .append(name)
+            .append("\n");
         for(Aliment ingredient : ingredients) {
-            sb.append(ingredient.toString()).append("\n");
+            sb
+                .append(ingredient.toString())
+                .append("\n");
         }
         sb.append(instructions.toString());
         return sb.toString();

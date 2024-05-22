@@ -54,6 +54,18 @@ public class Aliment {
     }
 
     public String toString() {
-        return name + " : " + calories + " calories, " + proteins + "g de protéines, " + carbohydrates + "g de carbohydrates, " + lipids + "g de lipids";
+        StringBuilder sb = new StringBuilder();
+        sb
+            .append(name)
+            .append(" : ")
+            .append(calories)
+            .append(" calories, ")
+            .append(proteins)
+            .append(" proteins, ")
+            .append(carbohydrates)
+            .append(" carbohydrates, ")
+            .append(lipids)
+            .append(" lipids");
+        return sb.toString();
     }
 }
