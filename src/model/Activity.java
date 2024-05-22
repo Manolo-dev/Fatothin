@@ -47,6 +47,11 @@ public class Activity {
         return start;
     }
 
+    public Day getDay() {
+        return day;
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb

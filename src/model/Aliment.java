@@ -53,6 +53,7 @@ public class Aliment {
         return lipids;
     }
 
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb

@@ -42,6 +42,7 @@ public class Recipe {
         return instructions.getSteps();
     }
 
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb
@@ -71,6 +72,7 @@ public class Recipe {
             return steps;
         }
 
+        @Override
         public String toString() {
             StringBuilder sb = new StringBuilder();
             for(int i = 0; i < steps.size(); i++) {
