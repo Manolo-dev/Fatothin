@@ -18,7 +18,7 @@ public class TUI {
         displayMenu();
     }
 
-    public static void displayMenu() {
+    private static void displayMenu() {
         System.out.println("Menu");
         System.out.println("1. Afficher les aliments");
         System.out.println("2. Afficher les recettes");
@@ -56,7 +56,7 @@ public class TUI {
         displayMenu();
     }
 
-    public static void displayAliments() {
+    private static void displayAliments() {
         for(Aliment aliment : aliments) {
             System.out.println(aliment.toString());
         }
@@ -89,7 +89,7 @@ public class TUI {
         displayAliments();
     }
 
-    public static void newAliment() {
+    private static void newAliment() {
         try {
 
             System.out.print("Nom: ");
@@ -117,7 +117,7 @@ public class TUI {
         }
     }
 
-    public static void removeAliment() {
+    private static void removeAliment() {
         try {
             System.out.print("Nom: ");
             String name = System.console().readLine();
@@ -131,6 +131,98 @@ public class TUI {
             System.out.println("Cet aliment n'existe pas");
         } catch(Exception e) {
             System.out.println("Erreur lors de la suppression de l'aliment");
+        }
+    }
+
+    private static void displayRecipes() {
+        for(Recipe recipe : recipes) {
+            System.out.println(recipe.toString());
+        }
+
+        System.out.println("1. Ajouter une recette");
+        System.out.println("2. Supprimer une recette");
+        System.out.println("3. Retour");
+
+        int choice = 0;
+        while(choice < 1 || choice > 3) {
+            System.out.print("Votre choix: ");
+            try {
+                choice = Integer.parseInt(System.console().readLine());
+            } catch(NumberFormatException e) {
+                choice = 0;
+            }
+        }
+
+        switch(choice) {
+            case 1:
+                newRecipe();
+                break;
+            case 2:
+                removeRecipe();
+                break;
+            case 3:
+                return;
+        }
+    }
+
+    private static void newRecipe() {
+        try {
+            System.out.print("Nom: ");
+            String name = System.console().readLine();
+
+            for(Recipe recipe : recipes) {
+                if(recipe.getName().equals(name)) {
+                    System.out.println("Cette recette existe déjà");
+                    return;
+                }
+            }
+
+            Recipe recipe = new Recipe(name);
+
+            System.out.print("Ingrédients (nom, quantité): ");
+            String[] ingredients = System.console().readLine().split(",");
+            for(int i = 0; i < ingredients.length; i += 2) {
+                Aliment aliment = null;
+                for(Aliment a : aliments) {
+                    if(a.getName().equals(ingredients[i])) {
+                        aliment = a;
+                        break;
+                    }
+                }
+                if(aliment == null) {
+                    System.out.println("Cet aliment n'existe pas");
+                    return;
+                }
+                recipe.addAliment(aliment, Integer.parseInt(ingredients[i + 1]));
+            }
+
+            System.out.print("Instructions: ");
+            while(true) {
+                String instruction = System.console().readLine();
+                if(instruction.isEmpty()) break;
+                recipe.addInstruction(instruction);
+            }
+
+            recipes.add(recipe);
+        } catch(Exception e) {
+            System.out.println("Erreur lors de la création de la recette");
+        }
+    }
+
+    private static void removeRecipe() {
+        try {
+            System.out.print("Nom: ");
+            String name = System.console().readLine();
+
+            for(Recipe recipe : recipes) {
+                if(recipe.getName().equals(name)) {
+                    recipes.remove(recipe);
+                    return;
+                }
+            }
+            System.out.println("Cette recette n'existe pas");
+        } catch(Exception e) {
+            System.out.println("Erreur lors de la suppression de la recette");
         }
     }
 }

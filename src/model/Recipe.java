@@ -3,38 +3,44 @@ package model;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import utils.Pair;
+
 public class Recipe {
     private String name;
-    private ArrayList<Aliment> ingredients;
+    private ArrayList<Pair<Aliment, Integer>> ingredients;
     private Instructions instructions;
 
-    public Recipe(String name, ArrayList<Aliment> ingredients, String steps) {
+    public Recipe(String name) {
         if(name == null || name.isEmpty()) throw new IllegalArgumentException("Name cannot be null or empty");
-        if(ingredients == null) throw new IllegalArgumentException("Ingredients cannot be null");
-        if(ingredients.isEmpty()) throw new IllegalArgumentException("Ingredients cannot be empty");
 
         this.name = name;
-        this.ingredients = ingredients;
-        this.instructions = new Instructions(steps);
+        this.instructions = new Instructions();
     }
 
-    public void add(Aliment ingredient) {
+    public void addAliment(Aliment ingredient) {
         if(ingredient == null) throw new IllegalArgumentException("Ingredient cannot be null");
 
-        ingredients.add(ingredient);
+        ingredients.add(new Pair<Aliment, Integer>(ingredient, 1));
     }
 
-    public void remove(Aliment ingredient) {
+    public void addAliment(Aliment ingredient, int quantity) {
         if(ingredient == null) throw new IllegalArgumentException("Ingredient cannot be null");
+        if(quantity <= 0) throw new IllegalArgumentException("Quantity must be positive");
 
-        ingredients.remove(ingredient);
+        ingredients.add(new Pair<Aliment, Integer>(ingredient, quantity));
+    }
+
+    public void addInstruction(String step) {
+        if(step == null || step.isEmpty()) throw new IllegalArgumentException("Step cannot be null or empty");
+
+        instructions.add(step);
     }
 
     public String getName() {
         return name;
     }
 
-    public ArrayList<Aliment> getIngredients() {
+    public ArrayList<Pair<Aliment, Integer>> getIngredients() {
         return ingredients;
     }
 
@@ -48,9 +54,11 @@ public class Recipe {
         sb
             .append(name)
             .append("\n");
-        for(Aliment ingredient : ingredients) {
+        for(Pair<Aliment, Integer> ingredient : ingredients) {
             sb
-                .append(ingredient.toString())
+                .append(ingredient.getSecond())
+                .append(" ")
+                .append(ingredient.getFirst().getName())
                 .append("\n");
         }
         sb.append(instructions.toString());
@@ -60,16 +68,25 @@ public class Recipe {
     private class Instructions {
         private ArrayList<String> steps;
 
+        public Instructions() {
+            steps = new ArrayList<>();
+        }
+
         public Instructions(String steps) {
             if(steps == null || steps.isEmpty()) throw new IllegalArgumentException("Steps cannot be null or empty");
 
             ArrayList<String> temp = new ArrayList<String>(Arrays.asList(steps.split("\n")));
             temp.removeIf(s -> s == null || s.isEmpty());
-            
         }
 
         public ArrayList<String> getSteps() {
             return steps;
+        }
+
+        public void add(String step) {
+            if(step == null || step.isEmpty()) throw new IllegalArgumentException("Step cannot be null or empty");
+
+            steps.add(step);
         }
 
         @Override
