@@ -37,4 +37,32 @@ public class Input {
 
         return actions.get(choice - 1).getSecond().execute();
     }
+
+    public static int inputInt() {
+        Integer value = null;
+
+        while(value == null) {
+            try {
+                String input = System.console().readLine();
+                if(input.isEmpty()) return 0;
+                value = Integer.parseInt(input);
+            } catch(NumberFormatException e) {}
+        }
+
+        return value;
+    }
+
+    public static float inputFloat() {
+        Float value = null;
+
+        while(value == null) {
+            try {
+                String input = System.console().readLine();
+                if(input.isEmpty()) return 0;
+                value = Float.parseFloat(input);
+            } catch(NumberFormatException e) {}
+        }
+
+        return value;
+    }
 }

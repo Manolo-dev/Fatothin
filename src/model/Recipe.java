@@ -7,33 +7,33 @@ import utils.Pair;
 
 public class Recipe {
     private String name;
-    private ArrayList<Pair<Aliment, Integer>> ingredients;
-    private Instructions instructions;
+    private ArrayList<Pair<Aliment, Integer>> ingredients = new ArrayList<>();
+    private Instructions instructions = new Instructions();
+    private int time = 0;
 
     public Recipe(String name) {
         if(name == null || name.isEmpty()) throw new IllegalArgumentException("Name cannot be null or empty");
 
         this.name = name;
-        this.instructions = new Instructions();
     }
 
-    public void addAliment(Aliment ingredient) {
+    public void add(Aliment ingredient) {
         if(ingredient == null) throw new IllegalArgumentException("Ingredient cannot be null");
 
         ingredients.add(new Pair<Aliment, Integer>(ingredient, 1));
     }
 
-    public void addAliment(Aliment ingredient, int quantity) {
+    public void add(Aliment ingredient, int quantity) {
         if(ingredient == null) throw new IllegalArgumentException("Ingredient cannot be null");
         if(quantity <= 0) throw new IllegalArgumentException("Quantity must be positive");
 
         ingredients.add(new Pair<Aliment, Integer>(ingredient, quantity));
     }
 
-    public void addInstruction(String step) {
+    public void add(String step, int time) {
         if(step == null || step.isEmpty()) throw new IllegalArgumentException("Step cannot be null or empty");
 
-        instructions.add(step);
+        instructions.add(step, time);
     }
 
     public String getName() {
@@ -53,7 +53,9 @@ public class Recipe {
         StringBuilder sb = new StringBuilder();
         sb
             .append(name)
-            .append("\n");
+            .append(" (")
+            .append(time)
+            .append("mn)\n");
         for(Pair<Aliment, Integer> ingredient : ingredients) {
             sb
                 .append(ingredient.getSecond())
@@ -66,38 +68,35 @@ public class Recipe {
     }
 
     private class Instructions {
-        private ArrayList<String> steps;
+        private ArrayList<Pair<String, Integer>> steps;
 
         public Instructions() {
             steps = new ArrayList<>();
         }
 
-        public Instructions(String steps) {
-            if(steps == null || steps.isEmpty()) throw new IllegalArgumentException("Steps cannot be null or empty");
-
-            ArrayList<String> temp = new ArrayList<String>(Arrays.asList(steps.split("\n")));
-            temp.removeIf(s -> s == null || s.isEmpty());
-        }
-
         public ArrayList<String> getSteps() {
+            ArrayList<String> steps = new ArrayList<>();
+            for(Pair<String, Integer> step : this.steps) {
+                steps.add(step.getFirst());
+            }
             return steps;
         }
 
-        public void add(String step) {
+        public void add(String step, int time) {
             if(step == null || step.isEmpty()) throw new IllegalArgumentException("Step cannot be null or empty");
 
-            steps.add(step);
+            steps.add(new Pair<String, Integer>(step, time));
         }
 
         @Override
         public String toString() {
             StringBuilder sb = new StringBuilder();
-            for(int i = 0; i < steps.size(); i++) {
+            for(Pair<String, Integer> step : steps) {
                 sb
-                    .append(i + 1)
-                    .append(". ")
-                    .append(steps.get(i))
-                    .append("\n");
+                    .append(step.getFirst())
+                    .append(" (")
+                    .append(step.getSecond())
+                    .append(")\n");
             }
             return sb.toString();
         }

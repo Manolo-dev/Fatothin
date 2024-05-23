@@ -24,7 +24,7 @@ public class Datas {
         return plans;
     }
 
-    public void add(Aliment aliment, int n) {
+    public void add(Aliment aliment) {
         if(aliment == null) throw new IllegalArgumentException("Aliment cannot be null");
         if(aliments.contains(aliment)) throw new IllegalArgumentException("Aliment already exists");
 
