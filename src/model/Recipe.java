@@ -67,6 +67,18 @@ public class Recipe {
         return sb.toString();
     }
 
+    public int getTime() {
+        return time;
+    }
+
+    public int getCalories() {
+        int calories = 0;
+        for(Pair<Aliment, Integer> ingredient : ingredients) {
+            calories += ingredient.getFirst().getCalories() * ingredient.getSecond();
+        }
+        return calories;
+    }
+
     private class Instructions {
         private ArrayList<Pair<String, Integer>> steps;
 

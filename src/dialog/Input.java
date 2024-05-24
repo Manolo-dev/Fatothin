@@ -5,6 +5,7 @@ import java.util.Map;
 
 import utils.Pair;
 import utils.MenuAction;
+import utils.Day;
 
 public class Input {
     private ArrayList<Pair<String, MenuAction>> actions;
@@ -61,6 +62,29 @@ public class Input {
                 if(input.isEmpty()) return 0;
                 value = Float.parseFloat(input);
             } catch(NumberFormatException e) {}
+        }
+
+        return value;
+    }
+
+    public static String inputString() {
+        String value = null;
+
+        while(value == null) {
+            value = System.console().readLine();
+        }
+
+        return value;
+    }
+
+    public static Day inputDay() {
+        Day value = null;
+
+        while(value == null) {
+            try {
+                String input = System.console().readLine();
+                value = Day.valueOf(input);
+            } catch(IllegalArgumentException e) {}
         }
 
         return value;

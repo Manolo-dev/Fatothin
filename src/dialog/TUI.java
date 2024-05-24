@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import model.Datas;
 import model.Aliment;
 import model.Recipe;
+import utils.Day;
 
 public class TUI {
     private static Datas datas = new Datas();
@@ -154,6 +155,57 @@ public class TUI {
         return true;
     }
 
-    private static boolean displayMeals() {return true;}
+    private static boolean displayMeals() {
+        Input input = new Input();
+
+        input.put("Ajouter un repas",   TUI::addMeal);
+        input.put("Supprimer un repas", TUI::removeMeal);
+        input.put("Retour", () -> false);
+
+        do {
+            ArrayList<Recipe> recipes = datas.getRecipes();
+            for(Recipe recipe : recipes) {
+                System.out.println(recipe);
+            }
+
+            input.displayMenu();
+        } while(input.execute());
+
+        return true;
+    }
+
+    private static boolean addMeal() {
+        System.out.println("Ajout d'un repas");
+        System.out.print("Nom: ");
+        String name = System.console().readLine();
+        if(datas.containsMeal(name)) {
+            System.out.println("Ce repas existe déjà");
+            return true;
+        }
+
+        System.out.print("Durée: ");
+        int duration = Input.inputInt();
+        System.out.print("Heure de début: ");
+        int start = Input.inputInt();
+        System.out.print("Jour: ");
+        Day day = Input.inputDay();
+
+        return true;
+    }
+
+    private static boolean removeMeal() {
+        System.out.println("Suppression d'un repas");
+        System.out.print("Nom: ");
+        String name = System.console().readLine();
+        if(!datas.containsMeal(name)) {
+            System.out.println("Ce repas n'existe pas");
+            return true;
+        }
+
+        
+
+        return true;
+    }
+
     private static boolean displayPlans() {return true;}
 }
