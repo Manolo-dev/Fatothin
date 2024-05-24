@@ -1,7 +1,6 @@
 package dialog;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import utils.Pair;
 import utils.MenuAction;

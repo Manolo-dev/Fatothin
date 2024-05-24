@@ -9,17 +9,14 @@ import utils.Day;
 
 public class Plan {
     private String name;
-    private ArrayList<Activity> activities;
-    private HashMap<Day, boolean[]> freeSlots;
+    private ArrayList<Activity> activities = new ArrayList<>();
+    private HashMap<Day, boolean[]> freeSlots = new HashMap<>();
 
-    public Plan(String name, ArrayList<Activity> activities) {
+    public Plan(String name) {
         if(name == null || name.isEmpty()) throw new IllegalArgumentException("Name cannot be null or empty");
-        if(activities == null) activities = new ArrayList<Activity>();
 
         this.name = name;
-        this.activities = activities;
 
-        freeSlots = new HashMap<Day, boolean[]>();
         for(Day day : Day.values()) {
             freeSlots.put(day, new boolean[48]);
         }

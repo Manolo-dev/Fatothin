@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import model.Datas;
 import model.Aliment;
 import model.Recipe;
+import model.Meal;
+import model.Plan;
 import utils.Day;
 
 public class TUI {
@@ -189,6 +191,14 @@ public class TUI {
         int start = Input.inputInt();
         System.out.print("Jour: ");
         Day day = Input.inputDay();
+        System.out.print("Recette: ");
+        String recipeName = Input.inputString();
+        if(!datas.containsRecipe(recipeName)) {
+            System.out.println("Cette recette n'existe pas");
+            return true;
+        }
+
+        datas.add(new Meal(name, duration, start, day, datas.getRecipe(recipeName)));
 
         return true;
     }
@@ -202,10 +212,69 @@ public class TUI {
             return true;
         }
 
-        
+        Meal meal = datas.getMeal(name);
+        datas.remove(meal);
 
         return true;
     }
 
-    private static boolean displayPlans() {return true;}
+    private static boolean displayPlans() {
+        Input input = new Input();
+
+        input.put("Ajouter un plan",   TUI::addPlan);
+        input.put("Supprimer un plan", TUI::removePlan);
+        input.put("Retour", () -> false);
+
+        do {
+            ArrayList<Meal> meals = datas.getMeals();
+            for(Meal meal : meals) {
+                System.out.println(meal);
+            }
+
+            input.displayMenu();
+        } while(input.execute());
+
+        return true;
+    }
+
+    private static boolean addPlan() {
+        System.out.println("Ajout d'un plan");
+        System.out.print("Nom: ");
+        String name = System.console().readLine();
+        if(datas.containsPlan(name)) {
+            System.out.println("Ce plan existe déjà");
+            return true;
+        }
+
+        Plan plan = new Plan(name);
+
+        while(true) {
+            System.out.print("Repas (vide pour terminer): ");
+            String mealName = System.console().readLine();
+            if(mealName.isEmpty()) break;
+            if(!datas.containsMeal(mealName)) {
+                System.out.println("Ce repas n'existe pas");
+                continue;
+            }
+            plan.add(datas.getMeal(mealName));
+        }
+        datas.add(plan);
+
+        return true;
+    }
+
+    private static boolean removePlan() {
+        System.out.println("Suppression d'un plan");
+        System.out.print("Nom: ");
+        String name = System.console().readLine();
+        if(!datas.containsPlan(name)) {
+            System.out.println("Ce plan n'existe pas");
+            return true;
+        }
+
+        Plan plan = datas.getPlan(name);
+        datas.remove(plan);
+
+        return true;
+    }
 }
