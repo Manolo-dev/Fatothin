@@ -10,9 +10,13 @@ public class ListPanel<T> extends JPanel {
     private ArrayList<JButton> buttons;
     private JPanel buttonPanel;
     private ArrayList<T> objects;
+    private CardLayout cardLayout;
+    private JPanel cardPanel;
 
-    public ListPanel(ArrayList<T> objs) {
+    public ListPanel(ArrayList<T> objs, CardLayout cl, JPanel cp) {
         this.objects = objs;
+        this.cardLayout = cl;
+        this.cardPanel = cp;
 
         setLayout(new BorderLayout());
 
@@ -41,7 +45,7 @@ public class ListPanel<T> extends JPanel {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Add your logic here
+                cardLayout.show(cardPanel, "HomePanel");
             }
         });
         topButtonPanel.add(backButton, gbc);
@@ -79,30 +83,5 @@ public class ListPanel<T> extends JPanel {
 
     private void handleButtonClick(T obj) {
         System.out.println("Button clicked for: " + obj.toString());
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                ArrayList<String> meals = new ArrayList<>();
-                meals.add("Breakfast");
-                meals.add("Lunch");
-                meals.add("Dinner");
-                for (int i = 0; i < 10; i++) {
-                    meals.add("Meal " + i);
-                }
-
-                JFrame frame = new JFrame();
-                frame.setTitle("ListPanel Test");
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.setSize(400, 300);
-                frame.setLocationRelativeTo(null);
-
-                ListPanel<String> listPanel = new ListPanel<String>(meals);
-                frame.add(listPanel);
-
-                frame.setVisible(true);
-            }
-        });
     }
 }
